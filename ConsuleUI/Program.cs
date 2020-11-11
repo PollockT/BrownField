@@ -15,7 +15,8 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             string w;
-            int i, t, ttl;
+            int i;
+            double t, ttl;
             List<TimeSheetEntry> ents = new List<TimeSheetEntry>();
             Console.Write("Enter what you did: ");
             w = Console.ReadLine();
