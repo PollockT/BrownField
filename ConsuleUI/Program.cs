@@ -14,13 +14,23 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            string w;
-            int i, t, ttl;
+            string w, rawTimeWorked;
+            int i;
+            double ttl, t;
             List<TimeSheetEntry> ents = new List<TimeSheetEntry>();
             Console.Write("Enter what you did: ");
             w = Console.ReadLine();
             Console.Write("How long did you do it for: ");
-            t = int.Parse(Console.ReadLine());
+            rawTimeWorked = Console.ReadLine();
+
+            while (double.TryParse(rawTimeWorked, out t) == false)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Invalid number given");
+                Console.Write("How long did you do it for: ");
+                rawTimeWorked = Console.ReadLine();
+            }
+
             TimeSheetEntry ent = new TimeSheetEntry();
             ent.HoursWorked = t;
             ent.WorkDone = w;
@@ -34,18 +44,28 @@ namespace ConsoleUI
             {
                 cont = true;
             }
+
             while (cont == true)
             {
                 Console.Write("Enter what you did: ");
                 w = Console.ReadLine();
                 Console.Write("How long did you do it for: ");
-                t = int.Parse(Console.ReadLine());
+                rawTimeWorked = Console.ReadLine();
+
+                while (double.TryParse(rawTimeWorked, out t) == false)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Invalid number given");
+                    Console.Write("How long did you do it for: ");
+                    rawTimeWorked = Console.ReadLine();
+                }
+
                 ent = new TimeSheetEntry();
                 ent.HoursWorked = t;
                 ent.WorkDone = w;
                 ents.Add(ent);
 
-                Console.Write("Do you want to enter more time:");
+                Console.Write("Do you want to enter more time (yes/no): ");
                 answer = Console.ReadLine();
                 cont = false;
 
@@ -53,12 +73,11 @@ namespace ConsoleUI
                 {
                     cont = true;
                 }
-
-            } ;
+            }
             ttl = 0;
             for (i = 0; i < ents.Count; i++)
             {
-                if (ents[i].WorkDone.Contains("Acme"))
+                if (ents[i].WorkDone.ToLower().Contains("acme"))
                 {
                     ttl += ents[i].HoursWorked;
                 }
@@ -69,7 +88,7 @@ namespace ConsoleUI
             ttl = 0;
             for (i = 0; i < ents.Count; i++)
             {
-                if (ents[i].WorkDone.Contains("ABC"))
+                if (ents[i].WorkDone.ToLower().Contains("abc"))
                 {
                     ttl += ents[i].HoursWorked;
                 }
@@ -84,7 +103,7 @@ namespace ConsoleUI
             }
             if (ttl > 40)
             {
-                Console.WriteLine("You will get paid $" + (((ttl - 40)* 15) + (40 * 10)) + " for your work.");
+                Console.WriteLine("You will get paid $" + (((ttl - 40) * 15) + (40 * 10)) + " for your work.");
             }
             else
             {
@@ -99,6 +118,6 @@ namespace ConsoleUI
     public class TimeSheetEntry
     {
         public string WorkDone;
-        public int HoursWorked;
+        public double HoursWorked;
     }
 }
